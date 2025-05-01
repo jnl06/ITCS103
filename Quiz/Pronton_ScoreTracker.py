@@ -20,14 +20,13 @@ def add_to_excel(name_insert, score_insert):
         workbook = load_workbook(excelfile)
         sheet = workbook["Sheet"]
 
-        # Find and remove existing "Average" row and the blank row above it if present
         for row in range(2, sheet.max_row + 1):
             if sheet.cell(row=row, column=1).value == "Average":
-                sheet.delete_rows(row)  # remove Average row
+                sheet.delete_rows(row)
                 if sheet.cell(row=row - 1, column=1).value is None and \
                    sheet.cell(row=row - 1, column=2).value is None and \
                    sheet.cell(row=row - 1, column=3).value is None:
-                    sheet.delete_rows(row - 1)  # remove blank row above Average if any
+                    sheet.delete_rows(row - 1)
                 break
 
         next_row = sheet.max_row + 1
@@ -37,7 +36,6 @@ def add_to_excel(name_insert, score_insert):
         sheet.cell(row=next_row, column=2).value = score_insert
         sheet.cell(row=next_row, column=3).value = remarks
 
-        # Calculate average
         scores = []
         for row in range(2, sheet.max_row + 1):
             val = sheet.cell(row=row, column=2).value
@@ -49,7 +47,7 @@ def add_to_excel(name_insert, score_insert):
             avg_remarks = "Passed" if avg_score >= 75 else "Failed"
 
             insert_row = sheet.max_row + 1
-            sheet.insert_rows(insert_row)  # Insert 1 blank row
+            sheet.insert_rows(insert_row)
             avg_row = insert_row + 1
 
             sheet.cell(row=avg_row, column=1).value = "Average"
@@ -86,7 +84,7 @@ label = tk.Label(master=window, text="Score Tracker System", font=("Times New Ro
 label.pack(pady=27)
 
 frame = tk.Frame(master=window, bg="light blue")
-frame.pack(padx=5, pady=5)
+frame.pack(padx=7, pady=7)
 
 name_label = tk.Label(master=frame, text="Student Name:", bg="light blue")
 name_label.grid(row=0, column=0, padx=5, sticky="w")
